@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>PROFIL TERDATA - NØVEX</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #0b0e11;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: #161b20;
+            border-radius: 28px;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px #2a333c inset;
+            color: #e8edf0;
+        }
+
+        /* ===== HEADER ===== */
+        .app-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #7fe0c6;
+            border-bottom: 2px solid #2f3e48;
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .app-title small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #8899a6;
+            letter-spacing: 0;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: #1f272e;
+            border-radius: 18px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 1.8rem;
+            border-left: 6px solid #4aa88a;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            transition: transform 0.15s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ===== CARD HEADER ===== */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #b0d4cc;
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed #33424b;
+            padding-bottom: 0.6rem;
+        }
+
+        /* ===== PULSATING INDICATOR (inline, menggantikan emoji) ===== */
+        .indicator {
+            display: inline-block;
+            width: clamp(18px, 2.5vw, 26px);
+            height: clamp(18px, 2.5vw, 26px);
+            border-radius: 50%;
+            background: #cc0033;
+            box-shadow: 0 0 12px #ff0033, 0 0 30px #aa0022;
+            animation: pulse-siren 0.9s ease-in-out infinite alternate;
+            will-change: transform, opacity;
+            flex-shrink: 0;
+        }
+        @keyframes pulse-siren {
+            0% { opacity: 0.5; transform: scale(0.85); background: #880022; box-shadow: 0 0 8px #cc0033; }
+            100% { opacity: 1; transform: scale(1.15); background: #ff3355; box-shadow: 0 0 24px #ff0044, 0 0 50px #aa0022; }
+        }
+
+        /* ===== DATA ROWS ===== */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 0.4rem 0.8rem;
+            align-items: baseline;
+        }
+        .data-grid .label {
+            color: #8a9ba8;
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            padding: 0.2rem 0;
+        }
+        .data-grid .value {
+            color: #f0f6fa;
+            font-weight: 400;
+            word-break: break-word;
+            padding: 0.2rem 0;
+        }
+        .data-grid .value a {
+            color: #7fc1e8;
+            text-decoration: none;
+            border-bottom: 1px dotted #3d5a6b;
+        }
+        .data-grid .value a:hover {
+            color: #b3defa;
+            border-bottom: 1px solid #7fc1e8;
+        }
+        .data-grid .value .empty {
+            color: #5a6a76;
+            font-style: italic;
+        }
+
+        /* ===== SUB CARD ===== */
+        .sub-card {
+            background: #141b21;
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            margin-top: 1.2rem;
+            border-left: 3px solid #3d5f72;
+        }
+        .sub-card .data-grid {
+            grid-template-columns: 100px 1fr;
+            gap: 0.2rem 0.6rem;
+        }
+        .sub-card .data-grid .label {
+            font-size: 0.85rem;
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 0.8rem;
+            justify-content: flex-start;
+        }
+        .gallery-item {
+            background: #11181f;
+            border-radius: 14px;
+            padding: 6px;
+            border: 1px solid #2d3a44;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: border 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .gallery-item:hover {
+            border-color: #5d8c9e;
+            box-shadow: 0 0 0 2px #2d4b5a;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+            background: #1a232b;
+        }
+        .gallery-item .placeholder {
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: #1e2a33;
+            color: #5a7a8a;
+            font-size: 2.2rem;
+            border-radius: 10px;
+        }
+
+        /* ===== MODAL OVERLAY ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            max-width: 85vw;
+            max-height: 85vh;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+            cursor: default;
+            background: #1a1a1a;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+            min-height: 200px;
+            position: relative;
+        }
+        .modal-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 12px;
+            display: block;
+        }
+        .modal-content .fallback-text {
+            color: #8899aa;
+            font-size: 1.2rem;
+            padding: 2rem;
+            text-align: center;
+            display: none;
+        }
+        .modal-content .fallback-text.show {
+            display: block;
+        }
+        .modal-close {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            color: #fff;
+            font-size: 2.8rem;
+            font-weight: 300;
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(0,0,0,0.4);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* ===== FOOTER ===== */
+        .footnote {
+            margin-top: 2.2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #2a3b45;
+            text-align: center;
+            color: #6b7f8b;
+            font-size: 0.8rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            body { padding: 0.8rem; }
+            .container { padding: 1.2rem; }
+            .app-title { font-size: 1.6rem; flex-direction: column; align-items: flex-start; }
+            .app-title small { font-size: 0.8rem; }
+            .card { padding: 1.2rem; }
+            .data-grid { grid-template-columns: 1fr; gap: 0.1rem; }
+            .data-grid .label { font-weight: 500; color: #a0b6c4; }
+            .sub-card .data-grid { grid-template-columns: 1fr; }
+            .gallery-item { width: 80px; height: 80px; }
+            .modal-content { max-width: 95vw; min-width: 150px; min-height: 150px; }
+            .modal-close { top: 20px; right: 20px; font-size: 2.2rem; width: 40px; height: 40px; }
+        }
+        @media (max-width: 480px) {
+            .gallery-item { width: 70px; height: 70px; }
+            .gallery { gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="app-title">
+        <span>▸ PROFIL TERDATA</span>
+        <small>Kami tidak akan memulai kalau kalian tidak memulai. Jangan sentuh kami, dan kami tidak akan menyentuh kalian.</small>
+    </div>
+
+    <!-- ===== TARGET UTAMA (indikator di header, tanpa emoji) ===== -->
+    <div class="card" style="border-left-color: #cc2244;">
+        <div class="card-header">
+            <span class="indicator"></span> TARGET UTAMA
+        </div>
+        <div class="data-grid">
+            <span class="label">Nama</span><span class="value">Muhammad Rheifand Saputra</span>
+            <span class="label">No. Telp</span><span class="value">085774288960</span>
+            <span class="label">NIK</span><span class="value">3274011211070001</span>
+            <span class="label">No.KK</span><span class="value">3216211102160009</span>
+            <span class="label">Kelamin</span><span class="value">LAKI-LAKI</span>
+            <span class="label">TTL</span><span class="value">Bekasi, 12-11-2007</span>
+            <span class="label">Email</span><span class="value"><a href="mailto:Rheifandsaputraa2007@gmail.com">Rheifandsaputraa2007@gmail.com</a></span>
+        </div>
+        <div class="sub-card">
+            <div class="gallery">
+                <div class="gallery-item" data-src="Foto Anak.png">
+                    <img src="Foto Anak.png" alt="Foto Anak" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='flex';">
+                    <div class="placeholder">🖼️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADIK (tanpa emoji) ===== -->
+    <div class="card" style="border-left-color: #d4a05a;">
+        <div class="card-header">ADIK</div>
+        <div class="data-grid">
+            <span class="label">Nama</span><span class="value">Vierza Nadhifa Putri</span>
+            <span class="label">No. Telp</span><span class="value"><span class="empty">-</span></span>
+            <span class="label">NIK</span><span class="value"><span class="empty">-</span></span>
+            <span class="label">No.KK</span><span class="value"><span class="empty">-</span></span>
+            <span class="label">Kelamin</span><span class="value">PEREMPUAN</span>
+            <span class="label">TTL</span><span class="value"><span class="empty">-</span></span>
+            <span class="label">Email</span><span class="value"><span class="empty">-</span></span>
+        </div>
+    </div>
+
+    <!-- ===== AYAH (tanpa emoji) ===== -->
+    <div class="card" style="border-left-color: #5a8fc9;">
+        <div class="card-header">AYAH (Almarhum)</div>
+        <div class="data-grid">
+            <span class="label">Nama</span><span class="value">Jatma / Jatma Sutomo bin Makdar</span>
+            <span class="label">No. Telp</span><span class="value">085883502365</span>
+            <span class="label">NIK</span><span class="value">3216192305640004</span>
+            <span class="label">Kelamin</span><span class="value">LAKI-LAKI</span>
+            <span class="label">TTL</span><span class="value">Cirebon, 23-05-1964</span>
+            <span class="label">Tinggal</span><span class="value">Cikarang Selatan</span>
+        </div>
+        <div class="sub-card">
+            <div class="data-grid">
+                <span class="label">FB</span>
+                <span class="value">
+                    <a href="https://www.facebook.com/jatmajatma0738" target="_blank">facebook.com/jatmajatma0738</a>
+                    &nbsp;||&nbsp;
+                    <a href="https://www.facebook.com/jatma.sutomo.9" target="_blank">jatma.sutomo.9</a>
+                </span>
+            </div>
+            <div class="gallery">
+                <div class="gallery-item" data-src="Foto Ayah.png">
+                    <img src="Foto Ayah.png" alt="Foto Ayah" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='flex';">
+                    <div class="placeholder">🖼️</div>
+                </div>
+                <div class="gallery-item" data-src="FB Ayah.png">
+                    <img src="FB Ayah.png" alt="FB Ayah" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='flex';">
+                    <div class="placeholder">🖼️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== IBU (tanpa emoji) ===== -->
+    <div class="card" style="border-left-color: #d97a9e;">
+        <div class="card-header">IBU</div>
+        <div class="data-grid">
+            <span class="label">Nama</span><span class="value">Rhirie Piscrianty</span>
+            <span class="label">No. Telp</span><span class="value">085315249098</span>
+            <span class="label">NIK</span><span class="value">3274014305830001</span>
+            <span class="label">Kelamin</span><span class="value">PEREMPUAN</span>
+            <span class="label">TTL</span><span class="value">Cirebon, 03-05-1983</span>
+            <span class="label">Tinggal</span><span class="value">Cikarang Selatan</span>
+        </div>
+        <div class="sub-card">
+            <div class="data-grid">
+                <span class="label">FB</span><span class="value"><a href="https://www.facebook.com/rhirie.piscrianty" target="_blank">facebook.com/rhirie.piscrianty</a></span>
+                <span class="label">TT</span><span class="value"><a href="https://www.tiktok.com/@rhiriepiscrianty" target="_blank">tiktok.com/@rhiriepiscrianty</a></span>
+            </div>
+            <div class="gallery">
+                <div class="gallery-item" data-src="Foto Ibu.jpg">
+                    <img src="Foto Ibu.jpg" alt="Foto Ibu" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='flex';">
+                    <div class="placeholder">🖼️</div>
+                </div>
+                <div class="gallery-item" data-src="FB Ibu.png">
+                    <img src="FB Ibu.png" alt="FB Ibu" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='flex';">
+                    <div class="placeholder">🖼️</div>
+                </div>
+                <div class="gallery-item" data-src="TikTok Ibu.png">
+                    <img src="TikTok Ibu.png" alt="TikTok Ibu" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='flex';">
+                    <div class="placeholder">🖼️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MEDIA TAMBAHAN (tanpa emoji) ===== -->
+    <div class="card" style="border-left-color: #9b7fd4;">
+        <div class="card-header">FOTO KELUARGA - 2025</div>
+        <div class="sub-card">
+            <div class="gallery">
+                <div class="gallery-item" data-src="Foto Keluarga.png" style="width:140px; height:140px;">
+                    <img src="Foto Keluarga.png" alt="Foto Keluarga" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='flex';">
+                    <div class="placeholder">🖼️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footnote">
+         Cyber Intelligence & Digital Forensics by NØVEX
+    </div>
+
+</div>
+
+<!-- ===== MODAL OVERLAY ===== -->
+<div class="modal-overlay" id="imageModal">
+    <div class="modal-close" id="modalClose">&times;</div>
+    <div class="modal-content">
+        <img id="modalImg" src="" alt="preview" onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+        <div class="fallback-text">Gambar tidak tersedia</div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        'use strict';
+
+        var items = document.querySelectorAll('.gallery-item');
+        var modal = document.getElementById('imageModal');
+        var modalImg = document.getElementById('modalImg');
+        var fallback = document.querySelector('.fallback-text');
+        var closeBtn = document.getElementById('modalClose');
+
+        function openModal(src) {
+            if (!src) return;
+            modalImg.style.display = 'block';
+            fallback.classList.remove('show');
+            modalImg.src = src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            modalImg.src = '';
+            modalImg.style.display = 'block';
+            fallback.classList.remove('show');
+        }
+
+        items.forEach(function(item) {
+            item.addEventListener('click', function(e) {
+                var imgEl = this.querySelector('img');
+                var src = this.getAttribute('data-src') || (imgEl ? imgEl.src : '');
+                if (src) openModal(src);
+            });
+        });
+
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeModal();
+        });
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+
+        // error handler untuk gallery images
+        document.querySelectorAll('.gallery-item img').forEach(function(img) {
+            img.addEventListener('error', function() {
+                var parent = this.parentElement;
+                if (parent) {
+                    var pl = parent.querySelector('.placeholder');
+                    if (pl) pl.style.display = 'flex';
+                }
+                this.style.display = 'none';
+            });
+        });
+
+        console.log('[Doc] Siap. Klik gambar untuk preview.');
+    })();
+</script>
+</body>
+</html>
