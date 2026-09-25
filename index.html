@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
     <title>PROFIL TERDATA - NØVEX</title>
     <style>
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -32,7 +31,6 @@
             color: #e8edf0;
         }
 
-        /* ===== HEADER ===== */
         .app-title {
             font-size: 2.2rem;
             font-weight: 600;
@@ -54,7 +52,6 @@
             letter-spacing: 0;
         }
 
-        /* ===== CARDS ===== */
         .card {
             background: #1f272e;
             border-radius: 18px;
@@ -68,7 +65,6 @@
             transform: translateY(-2px);
         }
 
-        /* ===== CARD HEADER ===== */
         .card-header {
             display: flex;
             align-items: center;
@@ -81,7 +77,6 @@
             padding-bottom: 0.6rem;
         }
 
-        /* ===== PULSATING INDICATOR (inline, menggantikan emoji) ===== */
         .indicator {
             display: inline-block;
             width: clamp(18px, 2.5vw, 26px);
@@ -98,7 +93,6 @@
             100% { opacity: 1; transform: scale(1.15); background: #ff3355; box-shadow: 0 0 24px #ff0044, 0 0 50px #aa0022; }
         }
 
-        /* ===== DATA ROWS ===== */
         .data-grid {
             display: grid;
             grid-template-columns: 130px 1fr;
@@ -132,7 +126,6 @@
             font-style: italic;
         }
 
-        /* ===== SUB CARD ===== */
         .sub-card {
             background: #141b21;
             border-radius: 14px;
@@ -148,7 +141,6 @@
             font-size: 0.85rem;
         }
 
-        /* ===== GALLERY ===== */
         .gallery {
             display: flex;
             flex-wrap: wrap;
@@ -194,7 +186,6 @@
             border-radius: 10px;
         }
 
-        /* ===== MODAL OVERLAY ===== */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -261,18 +252,103 @@
             background: rgba(255,255,255,0.15);
         }
 
-        /* ===== FOOTER ===== */
         .footnote {
             margin-top: 2.2rem;
             padding-top: 1.2rem;
             border-top: 1px solid #2a3b45;
-            text-align: center;
             color: #6b7f8b;
             font-size: 0.8rem;
             letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 40px;
         }
 
-        /* ===== RESPONSIVE ===== */
+        .footnote .view-counter {
+            position: absolute;
+            left: 0;
+            top: calc(50% + 10px);
+            transform: translateY(-50%);
+        }
+
+        .footnote .copyright {
+            text-align: center;
+            margin: 0;
+        }
+
+        .view-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 14px;
+            background: rgba(22, 27, 32, 0.9);
+            border: 1px solid #2a333c;
+            border-radius: 999px;
+            color: #e8edf0;
+            font-size: 0.8rem;
+            letter-spacing: 0.6px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.45), 0 0 0 1px rgba(127,224,198,0.05) inset;
+            font-variant-numeric: tabular-nums;
+            user-select: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            flex-shrink: 0;
+        }
+        .view-counter:hover {
+            border-color: #4aa88a;
+            box-shadow: 0 2px 18px rgba(74,168,138,0.3);
+        }
+
+        .view-counter .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 8px #4ade80, 0 0 16px rgba(74,222,128,0.5);
+            animation: live-pulse 1.6s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes live-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.35; transform: scale(0.7); }
+        }
+
+        .view-counter .view-label {
+            color: #7fe0c6;
+            font-weight: 700;
+            font-size: 0.64rem;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .view-counter .view-number {
+            color: #f0f6fa;
+            font-weight: 700;
+            font-size: 0.9rem;
+            min-width: 2ch;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+        .view-counter .view-number.bump {
+            color: #7fe0c6;
+            animation: bump 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes bump {
+            0%   { transform: scale(1);   text-shadow: 0 0 0 rgba(127,224,198,0); }
+            45%  { transform: scale(1.28); text-shadow: 0 0 14px rgba(127,224,198,0.9); }
+            100% { transform: scale(1);   text-shadow: 0 0 0 rgba(127,224,198,0); }
+        }
+
+        .view-counter.is-offline .live-dot {
+            background: #f59e0b;
+            box-shadow: 0 0 8px #f59e0b;
+            animation: none;
+        }
+        .view-counter.is-offline .view-label {
+            color: #f59e0b;
+        }
+
         @media (max-width: 700px) {
             body { padding: 0.8rem; }
             .container { padding: 1.2rem; }
@@ -285,10 +361,36 @@
             .gallery-item { width: 80px; height: 80px; }
             .modal-content { max-width: 95vw; min-width: 150px; min-height: 150px; }
             .modal-close { top: 20px; right: 20px; font-size: 2.2rem; width: 40px; height: 40px; }
+
+            .footnote {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 0.8rem;
+                padding-top: 1rem;
+                min-height: auto;
+            }
+            .footnote .view-counter {
+                position: static;
+                transform: none;
+                align-self: flex-start;
+            }
+            .footnote .copyright {
+                text-align: center;
+                align-self: center;
+            }
+            .view-counter {
+                padding: 7px 12px;
+                font-size: 0.74rem;
+                gap: 7px;
+            }
+            .view-counter .view-label { font-size: 0.6rem; letter-spacing: 1.2px; }
+            .view-counter .view-number { font-size: 0.84rem; }
         }
         @media (max-width: 480px) {
             .gallery-item { width: 70px; height: 70px; }
             .gallery { gap: 8px; }
+            .view-counter { padding: 6px 10px; }
         }
     </style>
 </head>
@@ -301,7 +403,6 @@
         <small>Kami tidak akan memulai kalau kalian tidak memulai. Jangan sentuh kami, dan kami tidak akan menyentuh kalian.</small>
     </div>
 
-    <!-- ===== TARGET UTAMA (indikator di header, tanpa emoji) ===== -->
     <div class="card" style="border-left-color: #cc2244;">
         <div class="card-header">
             <span class="indicator"></span> TARGET UTAMA
@@ -325,21 +426,19 @@
         </div>
     </div>
 
-    <!-- ===== ADIK (tanpa emoji) ===== -->
     <div class="card" style="border-left-color: #d4a05a;">
         <div class="card-header">ADIK</div>
         <div class="data-grid">
             <span class="label">Nama</span><span class="value">Virza Nadhifa Putri</span>
-            <span class="label">No. Telp</span><span class="value">-</span></span>
-            <span class="label">NIK</span><span class="value">3274014704140001</span></span>
-            <span class="label">No.KK</span><span class="value">-</span></span>
+            <span class="label">No. Telp</span><span class="value">-</span>
+            <span class="label">NIK</span><span class="value">3274014704140001</span>
+            <span class="label">No.KK</span><span class="value">-</span>
             <span class="label">Kelamin</span><span class="value">PEREMPUAN</span>
-            <span class="label">TTL</span><span class="value">Bekasi, 2014-04-07</span></span>
-            <span class="label">Email</span><span class="value">-</span></span>
+            <span class="label">TTL</span><span class="value">Bekasi, 2014-04-07</span>
+            <span class="label">Email</span><span class="value">-</span>
         </div>
     </div>
 
-    <!-- ===== AYAH (tanpa emoji) ===== -->
     <div class="card" style="border-left-color: #5a8fc9;">
         <div class="card-header">AYAH (Almarhum)</div>
         <div class="data-grid">
@@ -372,7 +471,6 @@
         </div>
     </div>
 
-    <!-- ===== IBU (tanpa emoji) ===== -->
     <div class="card" style="border-left-color: #d97a9e;">
         <div class="card-header">IBU</div>
         <div class="data-grid">
@@ -405,7 +503,6 @@
         </div>
     </div>
 
-    <!-- ===== MEDIA TAMBAHAN (tanpa emoji) ===== -->
     <div class="card" style="border-left-color: #9b7fd4;">
         <div class="card-header">FOTO KELUARGA - 2025</div>
         <div class="sub-card">
@@ -419,12 +516,18 @@
     </div>
 
     <div class="footnote">
-         Cyber Intelligence & Digital Forensics by NØVEX
+        <div class="view-counter" id="viewCounter">
+            <span class="live-dot" id="liveDot"></span>
+            <span class="view-label">Views</span>
+            <span class="view-number" id="viewNumber">—</span>
+        </div>
+        <div class="copyright">
+             Cyber Intelligence & Digital Forensics by NØVEX
+        </div>
     </div>
 
 </div>
 
-<!-- ===== MODAL OVERLAY ===== -->
 <div class="modal-overlay" id="imageModal">
     <div class="modal-close" id="modalClose">&times;</div>
     <div class="modal-content">
@@ -435,8 +538,6 @@
 
 <script>
     (function() {
-        'use strict';
-
         var items = document.querySelectorAll('.gallery-item');
         var modal = document.getElementById('imageModal');
         var modalImg = document.getElementById('modalImg');
@@ -461,7 +562,7 @@
         }
 
         items.forEach(function(item) {
-            item.addEventListener('click', function(e) {
+            item.addEventListener('click', function() {
                 var imgEl = this.querySelector('img');
                 var src = this.getAttribute('data-src') || (imgEl ? imgEl.src : '');
                 if (src) openModal(src);
@@ -479,7 +580,6 @@
             if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
         });
 
-        // error handler untuk gallery images
         document.querySelectorAll('.gallery-item img').forEach(function(img) {
             img.addEventListener('error', function() {
                 var parent = this.parentElement;
@@ -490,9 +590,173 @@
                 this.style.display = 'none';
             });
         });
-
-        console.log('[Doc] Siap. Klik gambar untuk preview.');
     })();
 </script>
+
+<script>
+    (function() {
+        var NAMESPACE   = 'novex-profile-7f3a9c';
+        var KEY         = 'visits';
+        var API_BASE    = 'https://api.counterapi.dev/v1';
+        var POLL_MS     = 5000;
+        var SESSION_KEY = 'novex_visited_session';
+        var LOCAL_KEY   = 'novex_views_fallback';
+        var LOCAL_BASE  = 0;
+
+        var wrapEl = document.getElementById('viewCounter');
+        var numEl  = document.getElementById('viewNumber');
+        if (!wrapEl || !numEl) return;
+
+        var lastValue = null;
+        var pollTimer = null;
+
+        function renderNumber(n) {
+            n = Number(n) || 0;
+            if (n === lastValue) return;
+            lastValue = n;
+            numEl.textContent = n.toLocaleString('id-ID');
+            numEl.classList.remove('bump');
+            void numEl.offsetWidth;
+            numEl.classList.add('bump');
+        }
+
+        function setOffline(isOffline) {
+            wrapEl.classList.toggle('is-offline', !!isOffline);
+        }
+
+        function callAPI(action) {
+            var url = API_BASE + '/' + NAMESPACE + '/' + KEY + '/' + action + '?t=' + Date.now();
+            return fetch(url, { cache: 'no-store' })
+                .then(function(res) {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.json();
+                })
+                .then(function(data) {
+                    if (data && typeof data.count === 'number') return data.count;
+                    if (data && typeof data.value === 'number') return data.value;
+                    throw new Error('invalid payload');
+                });
+        }
+
+        function fallbackIncrement() {
+            var base = parseInt(localStorage.getItem(LOCAL_KEY) || String(LOCAL_BASE), 10);
+            if (isNaN(base)) base = LOCAL_BASE;
+            return base;
+        }
+
+        function fallbackBump() {
+            var base = fallbackIncrement() + 1;
+            try { localStorage.setItem(LOCAL_KEY, String(base)); } catch (e) {}
+            return base;
+        }
+
+        function startPolling() {
+            if (pollTimer) clearInterval(pollTimer);
+            pollTimer = setInterval(function() {
+                callAPI('get')
+                    .then(function(count) {
+                        setOffline(false);
+                        renderNumber(count);
+                    })
+                    .catch(function() {});
+            }, POLL_MS);
+        }
+
+        function init() {
+            var alreadyVisited = false;
+            try {
+                alreadyVisited = sessionStorage.getItem(SESSION_KEY) === '1';
+            } catch (e) {}
+
+            var action = alreadyVisited ? 'get' : 'up';
+
+            callAPI(action)
+                .then(function(count) {
+                    setOffline(false);
+                    renderNumber(count);
+                    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
+                    startPolling();
+                })
+                .catch(function() {
+                    setOffline(true);
+                    var val;
+                    if (!alreadyVisited) {
+                        val = fallbackBump();
+                        try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
+                    } else {
+                        val = fallbackIncrement();
+                    }
+                    renderNumber(val);
+
+                    var retry = setInterval(function() {
+                        callAPI('get')
+                            .then(function(count) {
+                                clearInterval(retry);
+                                setOffline(false);
+                                renderNumber(count);
+                                startPolling();
+                            })
+                            .catch(function() {});
+                    }, 10000);
+                });
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                callAPI('get')
+                    .then(function(count) {
+                        setOffline(false);
+                        renderNumber(count);
+                    })
+                    .catch(function() {});
+            }
+        });
+
+        init();
+    })();
+</script>
+
+<script>
+    (function() {
+        var blockEvent = function(e) {
+            e.preventDefault();
+            return false;
+        };
+
+        document.addEventListener('contextmenu', blockEvent);
+        document.addEventListener('dragstart', blockEvent);
+        document.addEventListener('copy', blockEvent);
+        document.addEventListener('cut', blockEvent);
+        document.addEventListener('selectstart', function(e) {
+            var tag = (e.target.tagName || '').toLowerCase();
+            if (tag !== 'input' && tag !== 'textarea') e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            var k = (e.key || '').toLowerCase();
+            if (e.keyCode === 123) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (k === 'i' || k === 'j' || k === 'c')) { e.preventDefault(); return false; }
+            if (e.ctrlKey && (k === 'u' || k === 's' || k === 'p')) { e.preventDefault(); return false; }
+            if (e.metaKey && e.altKey && (k === 'i' || k === 'j' || k === 'c' || k === 'u')) { e.preventDefault(); return false; }
+        });
+
+        var devtoolsOpen = false;
+        var threshold = 160;
+        var denyScreen = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#0b0e11;color:#7fe0c6;font-family:system-ui;font-size:1.2rem;letter-spacing:1px;text-align:center;padding:2rem;">AKSES DITOLAK<span style="font-size:0.8rem;color:#8899a6;margin-top:0.6rem;">Tutup DevTools untuk melanjutkan.</span></div>';
+
+        setInterval(function() {
+            var wDiff = window.outerWidth - window.innerWidth;
+            var hDiff = window.outerHeight - window.innerHeight;
+            var open = (wDiff > threshold || hDiff > threshold);
+            if (open && !devtoolsOpen) {
+                devtoolsOpen = true;
+                document.body.innerHTML = denyScreen;
+            } else if (!open && devtoolsOpen) {
+                location.reload();
+            }
+        }, 800);
+    })();
+</script>
+
 </body>
 </html>
